@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+function setup()
+{
+    echo '>>> Setting up...'
+
+    # Setup environment
+    source .env
+    export DOCKER_IMAGE_PHP
+}
+
+function test()
+{
+    echo '>>> Testing...'
+
+    docker run --rm \
+        -v $PWD/:/var/www/html \
+        $DOCKER_IMAGE_PHP \
+        ./vendor/bin/phpunit ./test --testdox
+}
+
+setup
+test
