@@ -12,7 +12,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Api\\": "src/"
+            "Api\\": "src/",
+            "Resource\\":"src/Resource/Resource/"
         }
     },
     "require-dev": {

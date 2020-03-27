@@ -45,4 +45,22 @@ class AppTest extends TestCase
         $this->assertSame(200, $responseStatus);
         $this->assertArrayHasKey('environment', $responseBody);
     }
+
+    public function testExampleEndpointShouldReturnHelloWorld()
+    {
+        $environment = SlimEnvironment::mock([
+            'REQUEST_METHOD' => 'GET',
+            'REQUEST_URI' => '/resource/',
+        ]);
+        $request = Request::createFromEnvironment($environment);
+        $this->api->getContainer()['request'] = $request;
+        
+        $response = $this->api->run(true);
+        $responseBody = json_decode((string)$response->getBody(), true);
+        $responseStatus = $response->getStatusCode();
+
+        $this->assertSame(200, $responseStatus);
+        $this->assertArrayHasKey('hello', $responseBody);
+        $this->assertSame('world', $responseBody['hello']);
+    }
 }

@@ -14,6 +14,8 @@ final class Router
             ]);
         });
 
+        $api->get('/resource/', 'Resource:getAll');
+
         $api->any('/[{path:.*}]', function($request, $response, $args) {
             return $response->withStatus(404);
         });
