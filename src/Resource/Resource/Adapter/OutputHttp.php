@@ -18,4 +18,9 @@ final class OutputHttp implements Output
     {
         return $this->response->withJson($output);
     }
+
+    public function notFound() : Response
+    {
+        return $this->response->withStatus(404);
+    }
 }

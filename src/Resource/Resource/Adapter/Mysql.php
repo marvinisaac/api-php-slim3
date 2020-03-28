@@ -22,4 +22,22 @@ final class Mysql implements Database
             return null;
         }
     }
+
+    public function getById(int $id) : ?array
+    {
+        try {
+            $object = Resource::where('_id', $id)
+                ->get();
+            if (is_null($object) ||
+                count($object) === 0
+            ) {
+                return null;
+            }
+            return $object->toArray();
+        } catch (QueryException $e) {
+            error_log('>>> Object get all error.');
+            error_log($e->getMessage());
+            return null;
+        }
+    }
 }

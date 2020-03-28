@@ -21,4 +21,14 @@ final class Resource
         $objectAll = $this->database->getAll();
         return $this->output->withJson($objectAll);
     }
+
+    public function getById(int $id)
+    {
+        $object = $this->database->getById($id);
+        if (!is_null($object)) {
+            return $this->output->withJson($object);
+        }
+
+        return $this->output->notFound();
+    }
 }

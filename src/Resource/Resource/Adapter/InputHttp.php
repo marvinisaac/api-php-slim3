@@ -25,4 +25,11 @@ final class InputHttp implements Input
         $resource = new Resource($this->database, $output);
         return $resource->getAll();
     }
+
+    public function getById(Request $request, Response $response, array $args) : Response
+    {
+        $output = new Output($response);
+        $resource = new Resource($this->database, $output);
+        return $resource->getById($args['id']);
+    }
 }

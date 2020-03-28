@@ -14,7 +14,10 @@ final class Router
             ]);
         });
 
-        $api->get('/resource/', 'Resource:getAll');
+        $api->group('/resource/', function (App $api) {
+            $api->get('', 'Resource:getAll');
+            $api->get('{id:[0-9]+}', 'Resource:getById');
+        });
 
         $api->any('/[{path:.*}]', function($request, $response, $args) {
             return $response->withStatus(404);
