@@ -10,6 +10,10 @@ final class Environment
     {
         $variables = [
             'PHP_ENVIRONMENT',
+            'MYSQL_DATABASE',
+            'MYSQL_HOSTNAME',
+            'MYSQL_PASSWORD',
+            'MYSQL_USERNAME',
         ];
 
         try {
