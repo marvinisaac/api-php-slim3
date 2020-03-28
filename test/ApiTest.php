@@ -46,7 +46,7 @@ class AppTest extends TestCase
         $this->assertArrayHasKey('environment', $responseBody);
     }
 
-    public function testExampleEndpointShouldReturnHelloWorld()
+    public function testGetResourceShouldReturnAllResources()
     {
         $environment = SlimEnvironment::mock([
             'REQUEST_METHOD' => 'GET',
@@ -57,10 +57,14 @@ class AppTest extends TestCase
         
         $response = $this->api->run(true);
         $responseBody = json_decode((string)$response->getBody(), true);
+        $responseContentCount = count($responseBody);
         $responseStatus = $response->getStatusCode();
 
         $this->assertSame(200, $responseStatus);
-        $this->assertArrayHasKey('hello', $responseBody);
-        $this->assertSame('world', $responseBody['hello']);
+        $this->assertIsArray($responseBody);
+        $this->assertGreaterThanOrEqual(1, $responseContentCount);
+        $this->assertArrayHasKey('_id', $responseBody[0]);
+        $this->assertArrayHasKey('ordinal_position_long', $responseBody[0]);
+        $this->assertArrayHasKey('ordinal_position_short', $responseBody[0]);
     }
 }

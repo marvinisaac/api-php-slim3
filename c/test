@@ -6,7 +6,8 @@ function setup()
 
     # Setup environment
     source .env
-    export DOCKER_IMAGE_PHP
+    export DOCKER_IMAGE_PHP \
+        DOCKER_NETWORK
 }
 
 function test()
@@ -15,6 +16,7 @@ function test()
 
     docker run --rm \
         -v $PWD/:/var/www/html \
+        --network $DOCKER_NETWORK \
         $DOCKER_IMAGE_PHP \
         ./vendor/bin/phpunit ./test --testdox
 }
