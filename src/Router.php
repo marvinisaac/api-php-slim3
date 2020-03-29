@@ -15,8 +15,8 @@ final class Router
         });
 
         $api->group('/resource/', function (App $api) {
-            $api->get('', 'Resource:getAll');
-            $api->get('{id:[0-9]+}', 'Resource:getById');
+            $api->get('', 'Resource:readAll');
+            $api->get('{id:[0-9]+}', 'Resource:readById');
             $api->post('', 'Resource:create');
         });
 

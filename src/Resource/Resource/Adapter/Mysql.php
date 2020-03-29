@@ -8,7 +8,7 @@
 
 final class Mysql implements Database
 {
-    public function getAll() : ?array
+    public function readAll() : ?array
     {
         try {
             $objectAll = Resource::get();
@@ -23,7 +23,7 @@ final class Mysql implements Database
         }
     }
 
-    public function getById(int $id) : ?array
+    public function readById(int $id) : ?array
     {
         try {
             $object = Resource::where('_id', $id)

@@ -19,18 +19,18 @@ final class InputHttp implements Input
         $this->database = new Mysql();
     }
 
-    public function getAll(Request $request, Response $response, array $args) : Response
+    public function readAll(Request $request, Response $response, array $args) : Response
     {
         $output = new Output($response);
         $resource = new Resource($this->database, $output);
-        return $resource->getAll();
+        return $resource->readAll();
     }
 
-    public function getById(Request $request, Response $response, array $args) : Response
+    public function readById(Request $request, Response $response, array $args) : Response
     {
         $output = new Output($response);
         $resource = new Resource($this->database, $output);
-        return $resource->getById($args['id']);
+        return $resource->readById($args['id']);
     }
 
     public function create(Request $request, Response $response, array $args) : Response

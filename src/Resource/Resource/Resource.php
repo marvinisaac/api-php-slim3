@@ -16,15 +16,15 @@ final class Resource
         $this->output = $output;
     }
 
-    public function getAll()
+    public function readAll()
     {
-        $objectAll = $this->database->getAll();
+        $objectAll = $this->database->readAll();
         return $this->output->withJson($objectAll);
     }
 
-    public function getById(int $id)
+    public function readById(int $id)
     {
-        $object = $this->database->getById($id);
+        $object = $this->database->readById($id);
         if (!is_null($object)) {
             return $this->output->withJson($object);
         }
