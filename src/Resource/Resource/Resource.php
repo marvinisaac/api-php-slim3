@@ -25,11 +25,11 @@ final class Resource
     public function readById(int $id)
     {
         $object = $this->database->readById($id);
-        if (!is_null($object)) {
-            return $this->output->withJson($object);
+        if (is_null($object)) {
+            return $this->output->notFound();
         }
-
-        return $this->output->notFound();
+        
+        return $this->output->withJson($object);
     }
 
     public function create(array $input)
