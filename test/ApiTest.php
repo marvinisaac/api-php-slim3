@@ -1,7 +1,7 @@
 <?php
 
     use \PHPUnit\Framework\TestCase;
-    use \Slim\Http\Environment as SlimEnvironment;
+    use \Slim\Http\Environment;
     use \Slim\Http\Headers;
     use \Slim\Http\Request;
     use \Slim\Http\RequestBody;
@@ -19,11 +19,7 @@ class AppTest extends TestCase
 
     public function testUnknownRouteShouldReturn404()
     {
-        $environment = SlimEnvironment::mock([
-            'REQUEST_METHOD' => 'GET',
-            'REQUEST_URI' => '/',
-        ]);
-        $request = Request::createFromEnvironment($environment);
+        $request = $this->prepareRequest();
         $this->api->getContainer()['request'] = $request;
         
         $response = $this->api->run(true);
@@ -34,11 +30,7 @@ class AppTest extends TestCase
 
     public function testDebugShouldReturnEnvironment()
     {
-        $environment = SlimEnvironment::mock([
-            'REQUEST_METHOD' => 'GET',
-            'REQUEST_URI' => '/debug/',
-        ]);
-        $request = Request::createFromEnvironment($environment);
+        $request = $this->prepareRequest('GET', '/debug/');
         $this->api->getContainer()['request'] = $request;
         
         $response = $this->api->run(true);
@@ -51,11 +43,7 @@ class AppTest extends TestCase
 
     public function testGetResourceShouldReturnAllResources()
     {
-        $environment = SlimEnvironment::mock([
-            'REQUEST_METHOD' => 'GET',
-            'REQUEST_URI' => '/resource/',
-        ]);
-        $request = Request::createFromEnvironment($environment);
+        $request = $this->prepareRequest('GET', '/resource/');
         $this->api->getContainer()['request'] = $request;
         
         $response = $this->api->run(true);
@@ -73,11 +61,7 @@ class AppTest extends TestCase
 
     public function testGetResourceByIdShouldReturnOnlyOneResource()
     {
-        $environment = SlimEnvironment::mock([
-            'REQUEST_METHOD' => 'GET',
-            'REQUEST_URI' => '/resource/1',
-        ]);
-        $request = Request::createFromEnvironment($environment);
+        $request = $this->prepareRequest('GET', '/resource/1');
         $this->api->getContainer()['request'] = $request;
         
         $response = $this->api->run(true);
@@ -95,11 +79,7 @@ class AppTest extends TestCase
 
     public function testGetResourceByInvalidIdShouldReturn404()
     {
-        $environment = SlimEnvironment::mock([
-            'REQUEST_METHOD' => 'GET',
-            'REQUEST_URI' => '/resource/0',
-        ]);
-        $request = Request::createFromEnvironment($environment);
+        $request = $this->prepareRequest('GET', '/resource/0');
         $this->api->getContainer()['request'] = $request;
         
         $response = $this->api->run(true);
@@ -110,11 +90,7 @@ class AppTest extends TestCase
 
     public function testCreateResourceWithNoInputShouldReturn400()
     {
-        $environment = SlimEnvironment::mock([
-            'REQUEST_METHOD' => 'POST',
-            'REQUEST_URI' => '/resource/',
-        ]);
-        $request = Request::createFromEnvironment($environment);
+        $request = $this->prepareRequest('POST', '/resource/');
         $this->api->getContainer()['request'] = $request;
         
         $response = $this->api->run(true);
@@ -125,35 +101,43 @@ class AppTest extends TestCase
 
     public function testCreateResourceWithMissingInputShouldReturn400()
     {
-        $environment = SlimEnvironment::mock([
-            'REQUEST_METHOD' => 'POST',
-            'REQUEST_URI' => '/resource/',
-            /**
-             * Add CRUCIAL request header. Without it, request body ignored
-             */
-            'CONTENT_TYPE' => 'application/json',
-        ]);
         $requestBody = [
             'ordinal_position_long' => 'n-th',
         ];
-
-        /**
-         * Create a custom Request with custom RequestBody contents
-         */
-        $method = 'POST';
-        $uri = Uri::createFromEnvironment($environment);
-        $headers = Headers::createFromEnvironment($environment);
-        $cookies = [];
-        $serverParams = $environment->all();
-        $body = new RequestBody();
-        $body->write(json_encode($requestBody));
-        
-        $request = new Request($method, $uri, $headers, $cookies, $serverParams, $body);
+        $request = $this->prepareRequest('POST', '/resource/', $requestBody);
         $this->api->getContainer()['request'] = $request;
         
         $response = $this->api->run(true);
         $responseStatus = $response->getStatusCode();
 
         $this->assertSame(400, $responseStatus);
+    }
+
+    private function prepareRequest(string $method = 'GET', string $uri = '/', array $requestBody = []) : Request
+    {
+        $environment = Environment::mock([
+            'REQUEST_METHOD' => $method,
+            'REQUEST_URI' => $uri,
+        ]);
+
+        if ($method === 'POST') {
+            $environment = Environment::mock([
+                'REQUEST_METHOD' => $method,
+                'REQUEST_URI' => $uri,
+                // Add required request header. Without it, request body ignored
+                'CONTENT_TYPE' => 'application/json',
+            ]);
+        }
+
+        $uri = Uri::createFromEnvironment($environment);
+        $headers = Headers::createFromEnvironment($environment);
+        $cookies = [];
+        $serverParams = $environment->all();
+        $body = new RequestBody();
+        if (count($requestBody) > 0) {
+            $body->write(json_encode($requestBody));
+        }
+        
+        return new Request($method, $uri, $headers, $cookies, $serverParams, $body);
     }
 }
