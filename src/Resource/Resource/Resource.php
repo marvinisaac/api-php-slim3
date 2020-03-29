@@ -48,7 +48,7 @@ final class Resource
             return $this->output->serverError();
         }
 
-        return $this->output->success();
+        return $this->output->createSuccess();
     }
 
     private function hasRequired(array $input, array $requiredKeys) {
