@@ -32,4 +32,23 @@ final class InputHttp implements Input
         $resource = new Resource($this->database, $output);
         return $resource->getById($args['id']);
     }
+
+    public function create(Request $request, Response $response, array $args) : Response
+    {
+        $output = new Output($response);
+        $resource = new Resource($this->database, $output);
+        $input = $request->getParsedBody();
+        if (!is_array($input)) {
+            $this->logError('No input detected.');
+            return $output->invalidUserRequest();
+        }
+        return $resource->create($input);
+    }
+
+    private function logError(string $errorMessage) : void
+    {
+        if ($_ENV['PHP_ENVIRONMENT'] !== 'PRODUCTION') {
+            error_log('>>> Debug message: ' . $errorMessage);
+        }
+    }
 }

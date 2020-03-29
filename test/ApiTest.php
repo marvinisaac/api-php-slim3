@@ -2,7 +2,10 @@
 
     use \PHPUnit\Framework\TestCase;
     use \Slim\Http\Environment as SlimEnvironment;
+    use \Slim\Http\Headers;
     use \Slim\Http\Request;
+    use \Slim\Http\RequestBody;
+    use \Slim\Http\Uri;
     use Api\Api;
 
 class AppTest extends TestCase
@@ -103,5 +106,54 @@ class AppTest extends TestCase
         $responseStatus = $response->getStatusCode();
 
         $this->assertSame(404, $responseStatus);
+    }
+
+    public function testCreateResourceWithNoInputShouldReturn400()
+    {
+        $environment = SlimEnvironment::mock([
+            'REQUEST_METHOD' => 'POST',
+            'REQUEST_URI' => '/resource/',
+        ]);
+        $request = Request::createFromEnvironment($environment);
+        $this->api->getContainer()['request'] = $request;
+        
+        $response = $this->api->run(true);
+        $responseStatus = $response->getStatusCode();
+
+        $this->assertSame(400, $responseStatus);
+    }
+
+    public function testCreateResourceWithMissingInputShouldReturn400()
+    {
+        $environment = SlimEnvironment::mock([
+            'REQUEST_METHOD' => 'POST',
+            'REQUEST_URI' => '/resource/',
+            /**
+             * Add CRUCIAL request header. Without it, request body ignored
+             */
+            'CONTENT_TYPE' => 'application/json',
+        ]);
+        $requestBody = [
+            'ordinal_position_long' => 'n-th',
+        ];
+
+        /**
+         * Create a custom Request with custom RequestBody contents
+         */
+        $method = 'POST';
+        $uri = Uri::createFromEnvironment($environment);
+        $headers = Headers::createFromEnvironment($environment);
+        $cookies = [];
+        $serverParams = $environment->all();
+        $body = new RequestBody();
+        $body->write(json_encode($requestBody));
+        
+        $request = new Request($method, $uri, $headers, $cookies, $serverParams, $body);
+        $this->api->getContainer()['request'] = $request;
+        
+        $response = $this->api->run(true);
+        $responseStatus = $response->getStatusCode();
+
+        $this->assertSame(400, $responseStatus);
     }
 }
