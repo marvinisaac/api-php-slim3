@@ -55,4 +55,37 @@ final class Mysql implements Database
             return false;
         }
     }
+    
+    public function update(int $id, array $input) : array
+    {
+        $invalidColumns = $this->checkColumns($input);
+        if (count($invalidColumns) > 0) {
+            return [
+                'success' => false,
+                'error_message' => 'Invalid columns: ' . json_encode($invalidColumns),
+            ];
+        }
+
+        try {
+            Resource::where('_id', $id)
+                ->update($input);
+            return [
+                'success' => true,
+            ];
+        } catch (QueryException $e) {
+            error_log('>>> Object update error.');
+            error_log($e->getMessage());
+            return [
+                'success' => false,
+                'error_message' => $e->getMessage(),
+            ];
+        }
+    }
+
+    private function checkColumns(array $input) : array
+    {
+        $databaseColumns = (new Resource())->getFillable();
+        $inputColumns = array_keys($input);
+        return array_diff($inputColumns, $databaseColumns);
+    }
 }

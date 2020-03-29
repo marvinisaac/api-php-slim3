@@ -51,6 +51,22 @@ final class Resource
         return $this->output->createSuccess();
     }
 
+    public function update(int $id, array $input)
+    {
+        $object = $this->database->readById($id);
+        if (is_null($object)) {
+            return $this->output->notFound();
+        }
+
+        $result = $this->database->update($id, $input);
+        if (!$result['success']) {
+            unset($result['success']);
+            return $this->output->invalidUserRequest($result);
+        }
+
+        return $this->output->updateSuccess();
+    }
+
     private function hasRequired(array $input, array $requiredKeys) {
         $hasRequired = true;
         $inputKeys = array_keys($input);

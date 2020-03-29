@@ -18,6 +18,7 @@ final class Router
             $api->get('', 'Resource:readAll');
             $api->get('{id:[0-9]+}', 'Resource:readById');
             $api->post('', 'Resource:create');
+            $api->patch('{id:[0-9]+}', 'Resource:update');
         });
 
         $api->any('/[{path:.*}]', function($request, $response, $args) {

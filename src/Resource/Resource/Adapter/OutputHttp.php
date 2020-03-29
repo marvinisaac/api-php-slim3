@@ -24,9 +24,15 @@ final class OutputHttp implements Output
         return $this->response->withStatus(201);
     }
 
-    public function invalidUserRequest() : Response
+    public function updateSuccess() : Response
     {
-        return $this->response->withStatus(400);
+        return $this->response->withStatus(204);
+    }
+
+    public function invalidUserRequest(array $output = []) : Response
+    {
+        return $this->response->withJson($output)
+            ->withStatus(400);
     }
 
     public function notFound() : Response

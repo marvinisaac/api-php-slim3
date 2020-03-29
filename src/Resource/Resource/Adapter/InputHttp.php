@@ -45,6 +45,22 @@ final class InputHttp implements Input
         return $resource->create($input);
     }
 
+    public function update(Request $request, Response $response, array $args) : Response
+    {
+        $output = new Output($response);
+        $resource = new Resource($this->database, $output);
+        $input = $request->getParsedBody();
+        if (!is_array($input)) {
+            $errorMessage = 'Missing request body.';
+            $this->logError($errorMessage);
+            return $output->invalidUserRequest([
+                'error_message' => $errorMessage,
+            ]);
+        }
+        
+        return $resource->update($args['id'], $input);
+    }
+
     private function logError(string $errorMessage) : void
     {
         if ($_ENV['PHP_ENVIRONMENT'] !== 'PRODUCTION') {
