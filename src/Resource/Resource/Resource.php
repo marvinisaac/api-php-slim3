@@ -18,18 +18,21 @@ final class Resource
 
     public function readAll()
     {
-        $objectAll = $this->database->readAll();
-        return $this->output->withJson($objectAll);
+        $result = $this->database->readAll();
+        if (!$result['success']) {
+            return $this->handleError($result);
+        }
+        return $this->output->success(200, $result['result']);
     }
 
     public function readById(int $id)
     {
-        $object = $this->database->readById($id);
-        if (is_null($object)) {
-            return $this->output->notFound();
+        $result = $this->database->readById($id);
+        if (!$result['success']) {
+            return $this->handleError($result);
         }
         
-        return $this->output->withJson($object);
+        return $this->output->success(200, $result['result']);
     }
 
     public function create(array $input)
@@ -65,6 +68,28 @@ final class Resource
         }
 
         return $this->output->updateSuccess();
+    }
+
+    private function convertToStatus(string $errorMessage) : int
+    {
+        switch($errorMessage) {
+            case 'No records found.':
+                return 404;
+            case 'Database error.':
+                return 500;
+        }
+
+        if (stripos($errorMessage, 'Missing required values:') !== false) {
+            return 400;
+        }
+    }
+
+    private function handleError(array $result)
+    {
+        unset($result['success']);
+        $message = $result['error_message'];
+        $status = $this->convertToStatus($message);
+        return $this->output->error($status, $message);
     }
 
     private function hasRequired(array $input, array $requiredKeys) {

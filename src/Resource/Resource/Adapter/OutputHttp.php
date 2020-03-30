@@ -14,34 +14,17 @@ final class OutputHttp implements Output
         $this->response = $response;
     }
 
-    public function withJson(array $output) : Response
+    public function success(int $status, array $output = []) : Response
     {
-        return $this->response->withJson($output);
+        return $this->response->withStatus($status)
+            ->withJson($output);
     }
 
-    public function createSuccess() : Response
+    public function error(int $status, string $message) : Response
     {
-        return $this->response->withStatus(201);
-    }
-
-    public function updateSuccess() : Response
-    {
-        return $this->response->withStatus(204);
-    }
-
-    public function invalidUserRequest(array $output = []) : Response
-    {
-        return $this->response->withJson($output)
-            ->withStatus(400);
-    }
-
-    public function notFound() : Response
-    {
-        return $this->response->withStatus(404);
-    }
-
-    public function serverError() : Response
-    {
-        return $this->response->withStatus(500);
+        return $this->response->withStatus($status)
+            ->withJson([
+                'error_message' => $message,
+            ]);
     }
 }

@@ -8,18 +8,27 @@
 
 final class Mysql implements Database
 {
-    public function readAll() : ?array
+    public function readAll() : array
     {
         try {
             $objectAll = Resource::get();
             if (is_null($objectAll)) {
-                return null;
+                return [
+                    'success' => false,
+                    'error_message' => 'No records found.',
+                ];
             }
-            return $objectAll->toArray();
+
+            return [
+                'success' => true,
+                'result' => $objectAll->toArray(),
+            ];
         } catch (QueryException $e) {
-            error_log('>>> Object get all error.');
-            error_log($e->getMessage());
-            return null;
+            error_log('>>> MySQL error: ' . $e->getMessage());
+            return [
+                'success' => false,
+                'error_message' => 'Database error.',
+            ];
         }
     }
 
@@ -31,13 +40,22 @@ final class Mysql implements Database
             if (is_null($object) ||
                 count($object) === 0
             ) {
-                return null;
+                return [
+                    'success' => false,
+                    'error_message' => 'No records found.',
+                ];
             }
-            return $object->toArray();
+
+            return [
+                'success' => true,
+                'result' => $object->toArray(),
+            ];
         } catch (QueryException $e) {
-            error_log('>>> Object get by ID error.');
-            error_log($e->getMessage());
-            return null;
+            error_log('>>> MySQL error: ' . $e->getMessage());
+            return [
+                'success' => false,
+                'error_message' => 'Database error.',
+            ];
         }
     }
     
