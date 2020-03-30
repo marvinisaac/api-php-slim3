@@ -103,6 +103,30 @@ final class Mysql implements Database
         }
     }
 
+    public function delete(int $id) : ?array
+    {
+        try {
+            $count = Resource::where('_id', $id)
+                ->delete();
+            if ($count === 0) {
+                return [
+                    'success' => false,
+                    'error_message' => 'No records found.',
+                ];
+            }
+
+            return [
+                'success' => true
+            ];
+        } catch (QueryException $e) {
+            error_log('>>> MySQL error: ' . $e->getMessage());
+            return [
+                'success' => false,
+                'error_message' => 'Database error.',
+            ];
+        }
+    }
+
     private function checkColumns(array $input) : array
     {
         $databaseColumns = (new Resource())->getFillable();

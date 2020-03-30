@@ -65,6 +65,13 @@ final class InputHttp implements Input
         return $resource->update($args['id'], $input);
     }
 
+    public function delete(Request $request, Response $response, array $args) : Response
+    {
+        $output = new Output($response);
+        $resource = new Resource($this->database, $output);
+        return $resource->delete($args['id']);
+    }
+
     private function logError(string $errorMessage) : void
     {
         if ($_ENV['PHP_ENVIRONMENT'] !== 'PRODUCTION') {

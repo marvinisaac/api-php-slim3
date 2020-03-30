@@ -82,6 +82,16 @@ final class Resource
         return $this->output->success(204);
     }
 
+    public function delete(int $id)
+    {
+        $result = $this->database->delete($id);
+        if (!$result['success']) {
+            return $this->handleError($result);
+        }
+        
+        return $this->output->success(204);
+    }
+
     private function checkMissingKeys(array $input, array $requiredKeys) : array
     {
         $inputKeys = array_keys($input);
