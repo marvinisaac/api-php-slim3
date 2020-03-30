@@ -15,7 +15,7 @@ final class Mysql implements Database
             if (is_null($objectAll)) {
                 return [
                     'success' => false,
-                    'error_message' => 'No records found.',
+                    'error_message' => 'No record(s) found.',
                 ];
             }
 
@@ -42,7 +42,7 @@ final class Mysql implements Database
             ) {
                 return [
                     'success' => false,
-                    'error_message' => 'No records found.',
+                    'error_message' => 'No record(s) found.',
                 ];
             }
 
@@ -111,7 +111,7 @@ final class Mysql implements Database
             if ($count === 0) {
                 return [
                     'success' => false,
-                    'error_message' => 'No records found.',
+                    'error_message' => 'No record(s) found.',
                 ];
             }
 
