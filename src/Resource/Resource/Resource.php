@@ -63,18 +63,23 @@ final class Resource
 
     public function update(int $id, array $input)
     {
-        $object = $this->database->readById($id);
-        if (is_null($object)) {
-            return $this->output->notFound();
+        $result = $this->database->readById($id);
+        if (!$result['success']) {
+            unset($result['success']);
+            $message = $result['error_message'];
+            $status = $this->convertToStatus($message);
+            return $this->output->error($status, $message);
         }
 
         $result = $this->database->update($id, $input);
         if (!$result['success']) {
             unset($result['success']);
-            return $this->output->invalidUserRequest($result);
+            $message = $result['error_message'];
+            $status = $this->convertToStatus($message);
+            return $this->output->error($status, $message);
         }
 
-        return $this->output->updateSuccess();
+        return $this->output->success(204);
     }
 
     private function checkMissingKeys(array $input, array $requiredKeys) : array

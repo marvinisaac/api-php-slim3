@@ -95,8 +95,7 @@ final class Mysql implements Database
                 'success' => true,
             ];
         } catch (QueryException $e) {
-            error_log('>>> Object update error.');
-            error_log($e->getMessage());
+            error_log('>>> MySQL error: ' . $e->getMessage());
             return [
                 'success' => false,
                 'error_message' => $e->getMessage(),
