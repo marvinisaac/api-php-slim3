@@ -57,9 +57,10 @@ final class InputHttp implements Input
         if (!is_array($input)) {
             $errorMessage = 'Missing request body.';
             $this->logError($errorMessage);
-            return $output->invalidUserRequest([
-                'error_message' => $errorMessage,
-            ]);
+            return $output->error(400, $errorMessage);
+
+            $this->logError('No input detected.');
+            return $output->invalidUserRequest();
         }
         
         return $resource->update($args['id'], $input);
