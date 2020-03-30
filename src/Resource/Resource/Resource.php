@@ -133,7 +133,9 @@ final class Resource
 
     private function logError(string $errorMessage) : void
     {
-        if ($_ENV['PHP_ENVIRONMENT'] !== 'PRODUCTION') {
+        if ($_ENV['PHP_ENVIRONMENT'] !== 'PRODUCTION' &&
+            $_ENV['PHP_ENVIRONMENT'] !== 'TEST'
+        ) {
             error_log('>>> Debug message: ' . $errorMessage);
         }
     }
