@@ -42,16 +42,23 @@ final class Resource
             'ordinal_position_short',
         ];
 
-        if (!$this->hasRequired($input, $requiredKeys)) {
-            return $this->output->invalidUserRequest();
+        $missingKeys = $this->checkMissingKeys($input, $requiredKeys);
+        if (count($missingKeys) > 0) {
+            $message = 'Missing required values: ' . json_encode($missingKeys);
+            $status = $this->convertToStatus($message);
+            $this->logError($message);
+            return $this->output->error($status, $message);
         }
 
-        $success = $this->database->create($input);
-        if (!$success) {
-            return $this->output->serverError();
+        $result = $this->database->create($input);
+        if (!$result['success']) {
+            unset($result['success']);
+            $message = $result['error_message'];
+            $status = $this->convertToStatus($message);
+            return $this->output->error($status, $message);
         }
 
-        return $this->output->createSuccess();
+        return $this->output->success(201);
     }
 
     public function update(int $id, array $input)
@@ -68,6 +75,23 @@ final class Resource
         }
 
         return $this->output->updateSuccess();
+    }
+
+    private function checkMissingKeys(array $input, array $requiredKeys) : array
+    {
+        $inputKeys = array_keys($input);
+        $missingKeys = array_diff($requiredKeys, $inputKeys);
+        if (count($missingKeys) > 0) {
+            return $missingKeys;
+        }
+
+        $missingKeys = [];
+        foreach ($input as $key => $value) {
+            if ($value === '') {
+                $missingKeys[] = $key;
+            }
+        }
+        return $missingKeys;
     }
 
     private function convertToStatus(string $errorMessage) : int
@@ -90,24 +114,6 @@ final class Resource
         $message = $result['error_message'];
         $status = $this->convertToStatus($message);
         return $this->output->error($status, $message);
-    }
-
-    private function hasRequired(array $input, array $requiredKeys) {
-        $hasRequired = true;
-        $inputKeys = array_keys($input);
-        foreach ($requiredKeys as $key) {
-            if (!in_array($key, $inputKeys)) {
-                $this->logError('Missing ' . $key);
-                $hasRequired = false;
-                continue;
-            }
-            if ($input[$key] === '') {
-                $this->logError('Blank ' . $key);
-                $hasRequired = false;
-            }
-        }
-        
-        return $hasRequired;
     }
 
     private function logError(string $errorMessage) : void

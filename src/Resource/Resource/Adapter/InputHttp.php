@@ -39,6 +39,10 @@ final class InputHttp implements Input
         $resource = new Resource($this->database, $output);
         $input = $request->getParsedBody();
         if (!is_array($input)) {
+            $errorMessage = 'Missing request body.';
+            $this->logError($errorMessage);
+            return $output->error(400, $errorMessage);
+
             $this->logError('No input detected.');
             return $output->invalidUserRequest();
         }

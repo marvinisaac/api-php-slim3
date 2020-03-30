@@ -59,18 +59,22 @@ final class Mysql implements Database
         }
     }
     
-    public function create(array $input) : bool
+    public function create(array $input) : array
     {
         try {
             Resource::create([
                 'ordinal_position_long' => $input['ordinal_position_long'],
                 'ordinal_position_short' => $input['ordinal_position_short'],
             ]);
-            return true;
+            return [
+                'success' => true,
+            ];
         } catch (QueryException $e) {
-            error_log('>>> Object create error.');
-            error_log(json_encode($e->errorInfo));
-            return false;
+            error_log('>>> MySQL error: ' . $e->getMessage());
+            return [
+                'success' => false,
+                'error_message' => 'Database error.',
+            ];
         }
     }
     
