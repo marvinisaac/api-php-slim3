@@ -111,7 +111,7 @@ final class Resource
 
     private function convertToStatus(string $errorMessage) : int
     {
-        switch($errorMessage) {
+        switch ($errorMessage) {
             case 'No record(s) found.':
                 return 404;
             case 'Database error.':

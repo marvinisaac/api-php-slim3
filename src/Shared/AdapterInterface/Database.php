@@ -2,4 +2,6 @@
 
     namespace Api\Shared\AdapterInterface;
 
-interface Database{}
+interface Database
+{
+}

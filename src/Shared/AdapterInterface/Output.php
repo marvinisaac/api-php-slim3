@@ -2,4 +2,6 @@
 
     namespace Api\Shared\AdapterInterface;
 
-interface Output{}
+interface Output
+{
+}

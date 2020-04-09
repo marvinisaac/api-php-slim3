@@ -8,7 +8,7 @@ final class Router
 {
     public static function set(App $api) : App
     {
-        $api->get('/debug/', function($request, $response, $args) {
+        $api->get('/debug/', function ($request, $response, $args) {
             return $response->withJson([
                 'environment' => $_ENV['PHP_ENVIRONMENT'],
             ]);
@@ -22,7 +22,7 @@ final class Router
             $api->delete('{id:[0-9]+}', 'Resource:delete');
         });
 
-        $api->any('/[{path:.*}]', function($request, $response, $args) {
+        $api->any('/[{path:.*}]', function ($request, $response, $args) {
             return $response->withStatus(404);
         });
         

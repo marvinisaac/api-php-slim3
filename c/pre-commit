@@ -14,5 +14,6 @@ function isTestSuccess()
 }
 
 echo ">>> Checking commit..."
+./c/style-fix
 ./c/test
 isTestSuccess

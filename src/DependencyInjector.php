@@ -22,7 +22,7 @@ final class DependencyInjector
             return $capsule;
         };
 
-        $container['Resource'] = function() {
+        $container['Resource'] = function () {
             return new Resource();
         };
 
