@@ -2,7 +2,7 @@
 
 function setup()
 {
-    echo '>>> Setting up...'
+    echo '>>> Setting up tests...'
 
     # Setup environment
     source .env
@@ -16,9 +16,11 @@ function test()
 
     docker run --rm \
         -v $PWD/:/var/www/html \
+        -v $PWD/logs/:/var/logs \
         --network $DOCKER_NETWORK \
         $DOCKER_IMAGE_PHP \
-        ./vendor/bin/phpunit ./test --testdox
+        ./vendor/bin/phpunit ./test --testdox \
+            --testdox-text /var/logs/test
 }
 
 setup
