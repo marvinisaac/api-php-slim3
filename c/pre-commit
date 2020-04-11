@@ -13,7 +13,15 @@ function isTestSuccess()
     fi
 }
 
+function addAnalyseLogs()
+{
+    git add ./logs/analyse
+}
+
 echo ">>> Checking commit..."
 ./c/style-fix
 ./c/test
 isTestSuccess
+# Failing analysis should NOT cancel commit
+./c/analyse
+addAnalyseLogs
