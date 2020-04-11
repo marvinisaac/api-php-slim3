@@ -5,7 +5,7 @@ function isTestSuccess()
     FAILED_TEST=$(grep -o -i "\[ \]" ./logs/phpunit.log | wc -l)
     if [ $FAILED_TEST == 0 ]
     then
-        git add ./logs/phpunit.log
+        git add ./logs/test
         ./c/version patch
     else
         echo ">>> Cancelling commit..."
