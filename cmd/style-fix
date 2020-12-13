@@ -2,7 +2,7 @@
 
 function setup()
 {
-    echo '>>> Setting up style checker...'
+    echo '> Setting up style checker...'
 
     # Setup environment
     source .env
@@ -11,14 +11,33 @@ function setup()
 
 function styleCheck()
 {
+    echo '>> Running style checker...'
+
+    # Run style check
     docker run --rm \
         -v $PWD/:/var/www/html \
         --user root \
         $DOCKER_DEV_IMAGE \
-        ./vendor/bin/phpcbf /var/www/html/src \
-            --standard=PSR2
+        ./vendor/bin/phpcbf /var/www/html -v \
+            --standard=PSR2 \
+            --ignore=*/vendor \
+    > $PWD/development/logs/phpcbf.log
+}
+
+function styleCheckSuccess()
+{
+    FIXED_FILES=$(grep -o -i "Fixing file" ./development/logs/phpcbf.log | wc -l)
+    if [ $FIXED_FILES != 0 ]
+    then
+        echo ">>> Style check failed. Errors were fixed, please check."
+        echo ">>> Cancelling commit."
+        exit 1
+    else
+        echo ">>> Style check success!"
+        git add $PWD/development/logs/phpcbf.log
+    fi
 }
 
 setup
 styleCheck
-git add .
+styleCheckSuccess
