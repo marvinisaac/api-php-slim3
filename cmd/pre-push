@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+echo ">> Checking test logs..."
+
+FAILED_TEST=$(grep -o -i "\[ \]" ./development/logs/phpunit.log | wc -l)
+if [ $FAILED_TEST != 0 ]
+then
+    echo ">>> Failed tests detected. Cancelling commit."
+    exit 1
+fi
