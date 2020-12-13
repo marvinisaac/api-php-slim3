@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+function setup()
+{
+    echo '>>> Setting up style checker...'
+
+    # Setup environment
+    source .env
+    export DOCKER_DEV_IMAGE
+}
+
+function styleCheck()
+{
+    docker run --rm \
+        -v $PWD/:/var/www/html \
+        --user root \
+        $DOCKER_DEV_IMAGE \
+        ./vendor/bin/phpcbf /var/www/html/src \
+            --standard=PSR2
+}
+
+setup
+styleCheck
+git add .
