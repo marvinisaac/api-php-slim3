@@ -3,4 +3,7 @@
 
 final class Api
 {
+    public function get()
+    {
+    }
 }
