@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+docker run --interactive --rm \
+    --name composer \
+    --volume $PWD:/app \
+    composer:2 \
+    composer $@ --ignore-platform-reqs
+
+docker run -it --rm \
+    --name composer \
+    --volume $PWD:/app \
+    composer:2 \
+    composer dump-autoload -o --ignore-platform-reqs
