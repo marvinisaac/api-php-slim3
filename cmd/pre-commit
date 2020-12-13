@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 
 ./cmd/style-fix
+./cmd/test
 ./cmd/version patch

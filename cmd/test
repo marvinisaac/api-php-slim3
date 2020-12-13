@@ -2,7 +2,7 @@
 
 function setup()
 {
-    echo '>>> Setting up tests...'
+    echo '> Setting up tests...'
 
     # Setup environment
     source .env
@@ -11,7 +11,7 @@ function setup()
 
 function test()
 {
-    echo '>>> Testing...'
+    echo '>> Testing...'
 
     docker run --rm \
         -v $PWD/:/var/www/html \
@@ -24,3 +24,4 @@ function test()
 
 setup
 test
+git add $PWD/development/logs/phpunit.log
