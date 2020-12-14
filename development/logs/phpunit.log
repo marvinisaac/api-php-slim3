@@ -3,7 +3,7 @@ Api (Test\Api\Api)
 
 Router (Test\Api\Router)
  [x] Unknown routes should return 404
- [ ] Health check route should return 200 and time
+ [x] Health check route should return 200 and time
 
 Setting (Test\Api\Setting)
  [x] Settings should display error details in local
