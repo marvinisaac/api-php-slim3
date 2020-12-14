@@ -5,6 +5,7 @@
     use \Slim\Http\Request;
     use \Slim\Http\Response;
     use Api\Setting;
+    use Api\Router;
 
 final class Api
 {
@@ -17,6 +18,8 @@ final class Api
     {
         $settings = Setting::get();
         $api = new App($settings);
+
+        $api = Router::add($api);
 
         $this->api = $api;
     }

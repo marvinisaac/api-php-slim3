@@ -1,7 +1,11 @@
 Api (Test\Api\Api)
  [x] Api should be created
 
-Api Setting (Test\Api\ApiSetting)
+Router (Test\Api\Router)
+ [x] Unknown routes should return 404
+ [ ] Health check route should return 200 and time
+
+Setting (Test\Api\Setting)
  [x] Settings should display error details in local
  [x] Settings should display error details in test
  [x] Settings should not display error details otherwise
