@@ -5,7 +5,7 @@
     use \Slim\App;
     use Api\Setting;
 
-class ApiSettingTest extends TestCase
+class SettingTest extends TestCase
 {
     public function setUp() : void
     {
