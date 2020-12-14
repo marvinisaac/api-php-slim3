@@ -1,11 +1,11 @@
 Registering sniffs in the PSR2 standard... DONE (43 sniffs registered)
 Creating file list... DONE (2 files in queue)
 Changing into directory /var/www/html/src
-Processing Api.php [PHP => 119 tokens in 23 lines]... DONE in 8ms (0 fixable violations)
+Processing Api.php [PHP => 119 tokens in 23 lines]... DONE in 4ms (0 fixable violations)
 Changing into directory /var/www/html/test
 Processing ApiTest.php [PHP => 117 tokens in 17 lines]... DONE in 3ms (0 fixable violations)
 
 No fixable errors were found
 
-Time: 208ms; Memory: 6MB
+Time: 601ms; Memory: 6MB
 

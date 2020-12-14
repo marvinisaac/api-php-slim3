@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+function setup()
+{
+    echo '> Setting up analyser...'
+
+    # Setup environment
+    source .env
+    export DOCKER_DEV_IMAGE
+}
+
+function analyse()
+{
+    echo '>> Analysing...'
+
+    docker run --rm \
+        -v $PWD/:/var/www/html \
+        $DOCKER_DEV_IMAGE \
+        ./vendor/bin/phpstan analyse \
+            -c ./development/config/phpstan.neon \
+            --error-format prettyJson \
+    > $PWD/development/logs/analyse.log
+}
+
+function analyseCheck()
+{
+    CRITICAL_ERROR=$(grep -o -i "\"ignorable\": false" ./development/logs/analyse.log | wc -l)
+    if [ $CRITICAL_ERROR != 0 ]
+    then
+        echo ">>> Analysis failed. Critical errors found."
+        echo ">>> Cancelling commit."
+        exit 1
+    else
+        echo ">>> Analysis success!"
+        git add $PWD/development/logs/analyse.log
+    fi
+}
+
+setup
+analyse
+analyseCheck
