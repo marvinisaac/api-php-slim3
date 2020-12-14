@@ -3,3 +3,8 @@ parameters:
     paths:
         - ../../src
         - ../../test
+    # Enable basic array return type instead of specific type of array (i.e. int[])
+    checkMissingIterableValueType: false
+    ignoreErrors:
+        # Ignore "inaccessible array offset" errors when setting up Slim's container
+        - "#Cannot access offset [a-zA-Z0-9\\_']+ on Psr\\\\Container\\\\ContainerInterface.#"

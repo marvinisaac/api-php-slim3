@@ -1,34 +1,8 @@
 {
     "totals": {
         "errors": 0,
-        "file_errors": 3
+        "file_errors": 0
     },
-    "files": {
-        "/var/www/html/src/Setting.php": {
-            "errors": 1,
-            "messages": [
-                {
-                    "message": "Method Api\\Setting::get() return type has no value type specified in iterable type array.",
-                    "line": 6,
-                    "ignorable": true
-                }
-            ]
-        },
-        "/var/www/html/test/Api/RouterTest.php": {
-            "errors": 2,
-            "messages": [
-                {
-                    "message": "Cannot access offset 'request' on Psr\\Container\\ContainerInterface.",
-                    "line": 36,
-                    "ignorable": true
-                },
-                {
-                    "message": "Cannot access offset 'request' on Psr\\Container\\ContainerInterface.",
-                    "line": 47,
-                    "ignorable": true
-                }
-            ]
-        }
-    },
+    "files": [],
     "errors": []
 }
