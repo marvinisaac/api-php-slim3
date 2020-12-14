@@ -1,34 +1,8 @@
 {
     "totals": {
         "errors": 0,
-        "file_errors": 3
+        "file_errors": 0
     },
-    "files": {
-        "/var/www/html/src/Api.php": {
-            "errors": 2,
-            "messages": [
-                {
-                    "message": "Property Api\\Api::$api has no typehint specified.",
-                    "line": 10,
-                    "ignorable": true
-                },
-                {
-                    "message": "Method Api\\Api::get() has no return typehint specified.",
-                    "line": 19,
-                    "ignorable": true
-                }
-            ]
-        },
-        "/var/www/html/test/ApiTest.php": {
-            "errors": 1,
-            "messages": [
-                {
-                    "message": "Method Test\\ApiTest::testApiShouldBeCreated() has no return typehint specified.",
-                    "line": 11,
-                    "ignorable": true
-                }
-            ]
-        }
-    },
+    "files": [],
     "errors": []
 }

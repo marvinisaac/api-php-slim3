@@ -7,6 +7,9 @@
 
 final class Api
 {
+    /**
+     * @var App;
+     */
     private $api;
 
     public function __construct()
@@ -16,7 +19,7 @@ final class Api
         $this->api = $api;
     }
 
-    public function get()
+    public function get() : App
     {
         return $this->api;
     }

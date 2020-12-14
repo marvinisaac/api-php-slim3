@@ -8,7 +8,7 @@
 
 class ApiTest extends TestCase
 {
-    public function testApiShouldBeCreated()
+    public function testApiShouldBeCreated() : void
     {
         $api = new Api();
         $api = $api->get();

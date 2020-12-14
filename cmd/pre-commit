@@ -1,5 +1,18 @@
 #!/usr/bin/env bash
 
 ./cmd/style-fix
-./cmd/test
-./cmd/version patch
+
+if [ $? -eq 0 ]
+then
+    ./cmd/analyse
+fi
+
+if [ $? -eq 0 ]
+then
+    ./cmd/test
+fi
+
+if [ $? -eq 0 ]
+then
+    ./cmd/version patch
+fi

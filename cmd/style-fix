@@ -41,3 +41,4 @@ function styleCheckSuccess()
 setup
 styleCheck
 styleCheckSuccess
+exit 0

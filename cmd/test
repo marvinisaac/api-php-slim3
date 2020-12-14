@@ -25,3 +25,4 @@ function test()
 setup
 test
 git add $PWD/development/logs/phpunit.log
+exit 0
