@@ -2,7 +2,7 @@ Api (Test\Api\Api)
  [x] Api should be created
 
 Api Setting (Test\Api\ApiSetting)
- [ ] Settings should display error details in local
- [ ] Settings should display error details in test
- [ ] Settings should not display error details otherwise
+ [x] Settings should display error details in local
+ [x] Settings should display error details in test
+ [x] Settings should not display error details otherwise
 
