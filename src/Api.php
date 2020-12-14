@@ -4,6 +4,7 @@
     use \Slim\App;
     use \Slim\Http\Request;
     use \Slim\Http\Response;
+    use Api\Setting;
 
 final class Api
 {
@@ -14,7 +15,8 @@ final class Api
 
     public function __construct()
     {
-        $api = new App();
+        $settings = Setting::get();
+        $api = new App($settings);
 
         $this->api = $api;
     }

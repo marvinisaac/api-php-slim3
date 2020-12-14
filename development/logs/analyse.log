@@ -1,8 +1,19 @@
 {
     "totals": {
         "errors": 0,
-        "file_errors": 0
+        "file_errors": 1
     },
-    "files": [],
+    "files": {
+        "/var/www/html/src/Setting.php": {
+            "errors": 1,
+            "messages": [
+                {
+                    "message": "Method Api\\Setting::get() return type has no value type specified in iterable type array.",
+                    "line": 6,
+                    "ignorable": true
+                }
+            ]
+        }
+    },
     "errors": []
 }

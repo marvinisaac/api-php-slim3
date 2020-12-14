@@ -1,13 +1,17 @@
 <?php
-    namespace Test;
+    namespace Test\Api;
 
     use \PHPUnit\Framework\TestCase;
     use \Slim\App;
     use Api\Api;
-    use Test\ApiTestHelper as Helper;
 
 class ApiTest extends TestCase
 {
+    public function setUp() : void
+    {
+        $_ENV['PHP_ENVIRONMENT'] = 'TEST';
+    }
+
     public function testApiShouldBeCreated() : void
     {
         $api = new Api();
